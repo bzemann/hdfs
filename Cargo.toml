@@ -1,3 +1,37 @@
 [workspace]
+
 resolver = "3"
-members = [ "crates/client", "crates/datanode","crates/namenode"]
+
+members = [
+  "client",
+  "crates/hdfs-cli-core",
+  "crates/hdfs-common",
+  "crates/hdfs-dn-core",
+  "crates/hdfs-dn-store",
+  "crates/hdfs-meta",
+  "crates/hdfs-net",
+  "crates/hdfs-nn-core",
+  "crates/hdfs-wire",
+  "datanode",
+  "namenode",
+]
+
+[workspace.dependencies]
+thiserror = "1"
+serde = { version = "1.0.219", features = ["derive"]}
+serde_json = "1"
+toml = "0.8"
+
+# byte sizes: parse/format "128Mib", "512Kib" 
+byte-unit = { version = "4", features = ["serde"]}
+
+# durations as human strings like "3s", "1m"
+humantime = "2"
+humantime-serde = "1"
+
+# stable IDs (enable serde so they round-trip in config/logs)
+uuid = { version = "1", features = ["v4", "serde"]}
+
+# snapsho/property testing - declare here then use as dev-deps in members
+insta = { version = "1", features = ["yaml"]}
+proptest = "1"
