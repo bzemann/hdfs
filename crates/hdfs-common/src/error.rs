@@ -26,7 +26,7 @@ pub enum HdfsError {
     Protocol { op: &'static str, details: String },
 
     #[error(
-        "checksum mismatch (blk_{block:?}, chunk {chunk_index}): expected 0x{expected:08X}, got 0x{got:08X}"
+        "checksum mismatch (blk_{block}, chunk {chunk_index}): expected 0x{expected:08X}, got 0x{got:08X}"
     )]
     ChecksumMismatch {
         block: BlockId,
@@ -123,7 +123,7 @@ mod tests {
     #[test]
     fn checksum_mismatch_display() {
         let e = HdfsError::ChecksumMismatch {
-            block: crate::ids::BlockId(42),
+            block: BlockId(42),
             chunk_index: 7,
             expected: 0xDEADBEEF,
             got: 0xFEEDBEEF,
@@ -131,7 +131,7 @@ mod tests {
 
         assert_eq!(
             e.to_string(),
-            "checksum mismatch (blk_BlockId(42), chunk 7): expected 0xDEADBEEF, got 0xFEEDBEEF"
+            "checksum mismatch (blk_42, chunk 7): expected 0xDEADBEEF, got 0xFEEDBEEF"
         );
     }
 
